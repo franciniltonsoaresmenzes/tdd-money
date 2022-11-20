@@ -1,11 +1,12 @@
 import { Expression } from './expression'
+import { Sum } from './sum'
 
 export class Money implements Expression {
-  private readonly amount: number
+  private readonly _amount: number
   private readonly _currency: string
 
   constructor (amount: number, _currency: string) {
-    this.amount = amount
+    this._amount = amount
     this._currency = _currency
   }
 
@@ -21,7 +22,11 @@ export class Money implements Expression {
     if (this._currency !== other._currency) {
       return false
     }
-    return this.amount === other.amount
+    return this._amount === other._amount
+  }
+
+  reduce (to: string): Money {
+    return this
   }
 
   currency (): string {
@@ -29,10 +34,14 @@ export class Money implements Expression {
   }
 
   times (multiplier: number): Money {
-    return new Money(this.amount * multiplier, this._currency)
+    return new Money(this._amount * multiplier, this._currency)
   }
 
   plus (addend: Money): Expression {
-    return new Money(this.amount + addend.amount, this._currency)
+    return new Sum(this, addend)
+  }
+
+  amount ():number {
+    return this._amount
   }
 }
