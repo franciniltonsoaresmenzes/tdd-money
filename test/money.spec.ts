@@ -1,3 +1,5 @@
+import { Bank } from '@/bank'
+import { Expression } from '@/expression'
 import { Money } from '@/money'
 import { describe, expect, it } from 'vitest'
 
@@ -17,5 +19,14 @@ describe('Money', () => {
   it('should handle currencies', () => {
     expect(Money.dollar(1).currency()).toEqual('USD')
     expect(Money.euro(1).currency()).toEqual('EUR')
+  })
+
+  it('should handle simple addition', () => {
+    const five = Money.dollar(5)
+    const sum: Expression = five.plus(five)
+    const bank = new Bank()
+    const reduce: Money = bank.reduce(sum, 'USD')
+
+    expect(reduce).toEqual(Money.dollar(10))
   })
 })
