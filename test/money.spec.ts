@@ -1,4 +1,4 @@
-import { Dollar, Euro, Money } from '@/money'
+import { Money } from '@/money'
 import { describe, expect, it } from 'vitest'
 
 describe('Money', () => {
@@ -8,22 +8,10 @@ describe('Money', () => {
     expect(five.times(3).equals(Money.dollar(15))).toBeTruthy()
   })
 
-  it('should correctly handle euro multiplication', () => {
-    const five: Money = Money.euro(5)
-    expect(five.times(2).equals(new Euro(10, 'EUR'))).toBeTruthy()
-    expect(five.times(3).equals(new Euro(15, 'EUR'))).toBeTruthy()
-  })
-
   it('should correctly handle money equality', () => {
-    expect(Money.dollar(5).equals(new Dollar(5, 'USD'))).toBeTruthy()
-    expect(Money.dollar(5).equals(new Dollar(6, 'USD'))).toBeFalsy()
-
-    expect(Money.euro(5).equals(Money.euro(5))).toBeTruthy()
-    expect(Money.euro(5).equals(Money.euro(6))).toBeFalsy()
-
+    expect(Money.dollar(5).equals(new Money(5, 'USD'))).toBeTruthy()
+    expect(Money.dollar(5).equals(new Money(6, 'USD'))).toBeFalsy()
     expect(Money.euro(5).equals(Money.dollar(5))).toBeFalsy()
-
-    expect(new Money(5, 'USD').equals(new Money(5, 'USD'))).toBeTruthy()
   })
 
   it('should correctly handle currencies', () => {
